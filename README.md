@@ -31,21 +31,30 @@ macOS keeps an app listed as a player for as long as its process is alive.
 
 - macOS 14 or later
 - Qobuz desktop app (tested with 8.3.0 on macOS 27)
-- Swift 5.9+ toolchain (Xcode or Command Line Tools) to build from source
+- Swift 5.9+ toolchain (Xcode or Command Line Tools), only to build from source
 
 ## Install
 
-There is no notarized download yet: you build it yourself.
+### Download
+
+1. Get `NowBridge-<version>.zip` from the [latest release](https://github.com/Papsi-Max/now-bridge/releases/latest)
+   (universal: Apple silicon and Intel).
+2. Unzip it and move `NowBridge.app` to `/Applications` (needed for "Open at login" to work reliably).
+3. The app is ad hoc signed and **not notarized**, so macOS blocks the first launch: right-click the app →
+   **Open** → **Open**. If macOS says the app is "damaged", remove the download quarantine flag instead:
+
+   ```bash
+   xattr -dr com.apple.quarantine /Applications/NowBridge.app
+   ```
+
+### Build from source
 
 ```bash
 git clone https://github.com/Papsi-Max/now-bridge.git
 cd now-bridge
-./build.sh          # produces build/NowBridge.app, ad hoc signed
+./build.sh          # produces build/NowBridge.app (UNIVERSAL=1 ./build.sh for arm64 + x86_64)
 open build/NowBridge.app
 ```
-
-The app is not notarized, so on first launch right-click it → **Open**. For "Open at login" to work reliably,
-move it to `/Applications` first.
 
 ## Settings
 
@@ -87,4 +96,4 @@ Code layout (`Sources/NowBridge`):
 
 ## License
 
-See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

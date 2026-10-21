@@ -134,6 +134,7 @@ struct QobuzTab: View {
 struct AboutTab: View {
     var diagnostics: () -> String
     @State private var copied = false
+    private static let email = "maxime.boulogne.3D@gmail.com"
 
     private var version: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?"
@@ -151,6 +152,30 @@ struct AboutTab: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
+            }
+            Section {
+                LabeledContent("Status") {
+                    Text("👑 Free").foregroundStyle(.purple)
+                }
+            }
+            Section {
+                LabeledContent("Developed by") {
+                    Link("Maxime Boulogne ↗", destination: URL(string: "https://maximeboulogne.com")!)
+                }
+                LabeledContent("Email") {
+                    HStack(spacing: 6) {
+                        Link(Self.email, destination: URL(string: "mailto:\(Self.email)")!)
+                        Button {
+                            NSPasteboard.general.clearContents()
+                            NSPasteboard.general.setString(Self.email, forType: .string)
+                        } label: { Image(systemName: "doc.on.doc") }
+                        .buttonStyle(.borderless)
+                        .help("Copy email address")
+                    }
+                }
+                LabeledContent("Source code") {
+                    Link("papsi-max/now-bridge ↗", destination: URL(string: "https://github.com/Papsi-Max/now-bridge")!)
+                }
             }
             Section {
                 Button(copied ? "Copied" : "Copy diagnostics") {
